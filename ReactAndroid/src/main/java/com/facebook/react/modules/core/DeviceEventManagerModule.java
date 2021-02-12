@@ -56,12 +56,13 @@ public class DeviceEventManagerModule extends NativeDeviceEventManagerSpec {
   }
 
   /** Sends an event to the JS instance that a new intent was received. */
-  public void emitNewIntentReceived(Uri uri) {
+  public void emitNewIntentReceived(Uri uri, Uri referrer) {
     ReactApplicationContext reactApplicationContext = getReactApplicationContextIfActiveOrWarn();
     Log.i("!@!@ uri", String.format("uri %s", uri.toString()));
     if (reactApplicationContext != null) {
       WritableMap map = Arguments.createMap();
       map.putString("url", uri.toString());
+      map.putString("referrer", referrer.toString());
       reactApplicationContext.getJSModule(RCTDeviceEventEmitter.class).emit("url", map);
     }
   }

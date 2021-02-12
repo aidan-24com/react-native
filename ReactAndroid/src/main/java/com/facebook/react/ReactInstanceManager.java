@@ -491,13 +491,14 @@ public class ReactInstanceManager {
     } else {
       String action = intent.getAction();
       Uri uri = intent.getData();
+      Uri referrer = intent.getExtras().get(Intent.EXTRA_REFERRER);
 
       if (uri != null
           && (Intent.ACTION_VIEW.equals(action)
               || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))) {
         DeviceEventManagerModule deviceEventManagerModule =
             currentContext.getNativeModule(DeviceEventManagerModule.class);
-        deviceEventManagerModule.emitNewIntentReceived(uri);
+        deviceEventManagerModule.emitNewIntentReceived(uri, referrer);
       }
       currentContext.onNewIntent(mCurrentActivity, intent);
     }
