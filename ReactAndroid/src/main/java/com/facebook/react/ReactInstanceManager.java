@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -491,7 +492,19 @@ public class ReactInstanceManager {
     } else {
       String action = intent.getAction();
       Uri uri = intent.getData();
-      Uri referrer = intent.getExtras().get(Intent.EXTRA_REFERRER);
+      Uri referrer = null;
+      try {
+        if (intent.getExtras() != null) {
+          Log.w("ReactInstanceMgr", String.format("referrer present: %b", intent.getExtras().containsKey(Intent.EXTRA_REFERRER)));
+          if (intent.getExtras().containsKey(Intent.EXTRA_REFERRER)) {
+            Log.w("ReactInstanceMgr", String.format("referrer: %s", intent.getExtras().get(Intent.EXTRA_REFERRER)));
+            referrer = (Uri) intent.getExtras().get(Intent.EXTRA_REFERRER);
+          }
+        }
+      } catch (Exception e) {
+        Log.e("ReactInstanceMgr", e.toString());
+      }
+
 
       if (uri != null
           && (Intent.ACTION_VIEW.equals(action)

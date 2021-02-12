@@ -62,7 +62,7 @@ public class DeviceEventManagerModule extends NativeDeviceEventManagerSpec {
     if (reactApplicationContext != null) {
       WritableMap map = Arguments.createMap();
       map.putString("url", uri.toString());
-      map.putString("referrer", referrer.toString());
+      if (referrer != null) map.putString("referrer", referrer.toString());
       reactApplicationContext.getJSModule(RCTDeviceEventEmitter.class).emit("url", map);
     }
   }
