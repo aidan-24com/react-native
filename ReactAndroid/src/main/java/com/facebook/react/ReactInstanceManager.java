@@ -493,25 +493,20 @@ public class ReactInstanceManager {
       String action = intent.getAction();
       Uri uri = intent.getData();
       Uri referrer = null;
+
       try {
         if (intent.getExtras() != null) {
-          Log.w("ReactInstanceMgr", String.format("referrer present: %b", intent.getExtras().containsKey(Intent.EXTRA_REFERRER)));
           referrer = intent.getParcelableExtra(Intent.EXTRA_REFERRER);
           if (referrer == null) {
-              Log.w("ReactInstanceMgr", String.format("referrer name present: %b", intent.getExtras().containsKey(Intent.EXTRA_REFERRER_NAME)));
               String referrerName = intent.getStringExtra(Intent.EXTRA_REFERRER_NAME);
               if (referrerName != null) {
-                  Log.w("ReactInstanceMgr", String.format("referrer name: %b", referrerName));
                   referrer = Uri.parse(referrerName);
               }
           }
-
-          Log.w("ReactInstanceMgr", String.format("referrer: %s", referrer));
         }
       } catch (Exception e) {
         Log.e("ReactInstanceMgr", e.toString());
       }
-
 
       if (uri != null
           && (Intent.ACTION_VIEW.equals(action)
